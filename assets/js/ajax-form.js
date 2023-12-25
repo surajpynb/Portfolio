@@ -4,25 +4,25 @@
         message = $('.messenger-box-contact__msg'),
         form_data;
 
-    // const submit = document.getElementById("submit-form");
-    // submit.addEventListener("click", validate);
-    // function validate(e) {
-    //     const message = document.getElementById('required-msg');
+    const submit = document.getElementById("submit-form");
+    submit.addEventListener("click", validate);
+    function validate(e) {
+        const message = document.getElementById('required-msg');
 
-    //     const fullName = document.getElementById("full-name");
-    //     const email = document.getElementById("email");
-    //     const subject = document.getElementById("subject");
-    //     let valid = true;
+        const fullName = document.getElementById("full-name");
+        const email = document.getElementById("email");
+        const subject = document.getElementById("subject");
+        let valid = true;
 
-    //     if (!fullName.value || !email.value || !subject.value) {
-    //         message.classList.add('show');
-    //         fullName.classList.add("invalid");
-    //     } else {
-    //         message.classList.remove('show');
-    //     }
+        if (!fullName.value || !email.value || !subject.value) {
+            message.classList.add('show');
+            fullName.classList.add("invalid");
+        } else {
+            message.classList.remove('show');
+        }
         
-    //     return valid;
-    // }
+        return valid;
+    }
 
 
     // Success function
@@ -43,6 +43,23 @@
             message.fadeOut();
         }, 3000);
     }
+
+    function sendemail(fullname, email, subject, message) {
+        emailjs.send("service_znkp1eg", "template_683eaxa", {
+            from_name: email,
+            to_name: fullname,
+            subject: subject,
+            message: message,
+        });
+    };
+
+    function success() {
+    swal({
+        title: "Email sent successfully",
+        text: "Thanks, will reply within 24 hrs",
+        icon: "success"
+    });
+};
     
     form.submit(function (e) {
         e.preventDefault();
@@ -60,6 +77,10 @@
             console.log('false');
             return false
         }
+        else {
+                sendemail(fullName.value, email.value, subject.value, message.value);
+                // success();
+            }
         message.classList.remove('show');
 
         form_data = $(this).serialize();
